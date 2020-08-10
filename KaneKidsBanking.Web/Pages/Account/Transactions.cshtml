@@ -1,0 +1,65 @@
+﻿@page
+@model KaneKidsBanking.Web.Pages.Account.TransactionsModel
+@{
+
+    this.ViewData["Title"] = "Account " + Model.Account.Id;
+}
+<h1>Account @Model.Account.Id</h1>
+<h2>Balance @Model.Account.Balance().ToString("c")</h2>
+<br />
+<h2>
+    Transactions History  <button onclick="return InsertItem()" class="btn btn-piggybank btn-sm">New Record</button>
+</h2>
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trans in Model.Transactions)
+            {
+                <tr>
+                    <td><label class="trans-item-guid" style="display: none">@trans.TransactionId</label><label class="trans-item-name">@trans.Name</label></td>
+                    <td><label class="trans-item-date">@trans.TransDate.ToShortDateString()</label></td>
+                    <td>@trans.Amount.ToString("c")<label style="display: none" class="trans-item-amount">@trans.Amount</label></td>
+                    <td>
+                        <button onclick="return EditCurrentItem(this)" class="btn btn-piggybank btn-sm">Edit</button>
+                        <button onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-id="@Model.Account.AccountId" asp-route-transactionId="@trans.TransactionId">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="edit-form" style="display: none">
+        <h2>Edit Transaction</h2>
+        <table>
+            <tr style="display: none">
+                <td>GUID</td>
+                <td><input type="text" name="edit-guid" id="edit-guid" /></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="edit-name" id="edit-name" /></td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td><input type="text" name="edit-date" id="edit-date" /></td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td><input type="text" name="edit-amount" id="edit-amount" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button class="btn btn-piggybank btn-sm" asp-page-handler="Save" asp-route-id="@Model.Account.AccountId">Save</button></td>
+            </tr>
+        </table>
+    </div>
+
+
+</form>

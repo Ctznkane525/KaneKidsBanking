@@ -1,0 +1,26 @@
+﻿@page
+@model KaneKidsBanking.Web.Accounts.IndexModel
+@{
+
+    this.ViewData["Title"] = "List of Accounts";
+}
+<h1>List of Accounts</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Balance</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model.Accounts)
+        {
+        <tr>
+            <td>@account.AccountId</td>
+            <td>@account.Balance().ToString("c")</td>
+            <td><a asp-area="" asp-page="./Transactions" asp-route-ID="@account.AccountId">Open Account</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
