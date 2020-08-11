@@ -1,12 +1,37 @@
 ﻿@page
-@model IndexModel
+@model KaneKidsBanking.Web.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
+<form method="post">
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Kids Bank</h1>
+        <br />
+        <h2>Login</h2>
+        <div class="container">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Kids Bank</h1>
-</div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Username</div>
+                <div class="col-md-3"><input type="text" name="Username" /></div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">Password</div>
+                <div class="col-md-3"><input type="password" name="Password" /></div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"><button asp-page-handler="Login" asp-area="" class="btn btn-piggybank btn-sm">Login</button></div>
+                <div class="col-md-3">@Model.Message</div>
+            </div>
+
+        </div>
+    </div>
+</form>
 <script>
-    window.location.href = "../Account/Index"
+    //window.location.href = "../Account/Index"
 </script>

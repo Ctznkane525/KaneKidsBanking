@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using KaneKidsBanking.Database;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,11 +43,28 @@ namespace KaneKidsBanking.Web
                 options.Filters.Add(new AuthorizeFilter(policy));
             });*/
 
+            
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
+                cookieOptions.LoginPath = "/";
+            });
+
+            services.AddMvc().AddRazorPagesOptions(options => {
+                options.Conventions.AuthorizeFolder("/Account");
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            
+
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
            
             services.AddScoped<CosmosDb>(c=> new CosmosDb(config["endPointUrl"], config["primaryKey"]));
+            services.AddSingleton<IConfiguration>(c => config);
 
         }
 
@@ -74,8 +94,10 @@ namespace KaneKidsBanking.Web
 
             app.UseRouting();
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
