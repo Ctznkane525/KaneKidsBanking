@@ -32,16 +32,8 @@ namespace KaneKidsBanking.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
-            //    .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
-            services.AddRazorPages();/*.AddMvcOptions(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });*/
+            services.AddRazorPages();
 
             
             services.Configure<CookiePolicyOptions>(options =>
@@ -56,7 +48,8 @@ namespace KaneKidsBanking.Web
 
             services.AddMvc().AddRazorPagesOptions(options => {
                 options.Conventions.AuthorizeFolder("/Account");
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+            
             
 
             var config = new ConfigurationBuilder()
@@ -64,7 +57,7 @@ namespace KaneKidsBanking.Web
                 .Build();
            
             services.AddScoped<CosmosDb>(c=> new CosmosDb(config["endPointUrl"], config["primaryKey"]));
-            services.AddSingleton<IConfiguration>(c => config);
+            //services.AddSingleton<IConfiguration>(c => config);
 
         }
 
@@ -78,16 +71,7 @@ namespace KaneKidsBanking.Web
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

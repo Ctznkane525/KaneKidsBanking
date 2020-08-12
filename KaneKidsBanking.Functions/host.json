@@ -1,0 +1,16 @@
+{
+  "version": "2.0",
+  "logging": {
+    "applicationInsights": {
+      "samplingExcludedTypes": "Request",
+      "samplingSettings": {
+        "isEnabled": true
+      }
+    }
+  },
+  "Values": {
+    "endPointUrl": "https://kane-kids-banking.documents.azure.com:443/",
+    "primaryKey": "IjkXEsTiinBK0IJMSL31RUPtdlotFQemyuxdNGOdBZGeH5RN21iGj8O3B0C9kkqcBSvvopLmivaM5pXRbf6SFA=="
+  },
+  "COMMENT":  "I don't care if this gets hacked.'"
+}

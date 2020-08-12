@@ -31,6 +31,11 @@ namespace KaneKidsBanking.Database
             Transactions = transactions;
         }
 
+        public bool TransactionExists(DateTime transactionDate, string name)
+        {
+            return Transactions.ToList().Where(c => transactionDate == c.TransDate && c.Name == name).Count() > 0;
+        }
+
         public void RemoveTransaction(string transactionId)
         {
             var list = Transactions.ToList();
