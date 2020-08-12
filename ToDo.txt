@@ -1,6 +1,5 @@
-1.  Allowance
-2.  Redis Cache
-3.  Add Accounts
-4.  Errors Capture (Events)
-5.  Logging of User Logins
-6.  Logging of Record Changes
+1.  Redis Cache
+2.  Add Accounts
+3.  Errors Capture (Events)
+4.  Logging of User Logins
+5.  Logging of Record Changes
